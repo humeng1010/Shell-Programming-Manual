@@ -1,0 +1,8 @@
+#!/bin/bash
+echo '=======$#========='
+echo script name: $0
+echo 1st parameter: $1
+echo 2nd parameter: $2
+echo parameter total: $#
+
+echo '=================='

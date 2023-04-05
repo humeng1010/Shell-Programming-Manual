@@ -1,0 +1,6 @@
+echo '=======test $n========'
+echo "commend name $0"
+echo "1 paramter $1"
+echo "2 paramter $2"
+echo "3 paramter $3"
+
