@@ -193,3 +193,196 @@ parameter total: 5
 echo $[$1+$2]
 ```
 
+
+
+## 条件判断
+
+> 基本语法：`test condition`或者`[ condition ]`(注意前后有空格)
+>
+> 条件非空即true，使用echo $?查看上一个命令的结果**如果是0则为true注意这是和其他语言不一样的地方**
+
+```sh
+a=hello
+echo $a
+# hello
+test $a = hello
+echo $?
+# 0
+test $a = hell
+echo $?
+# 1
+[ $a = hello ]
+echo $?
+# 0
+[ $a=hell ]
+echo $?
+# 0 注意：等号两边没有空格会被当成整个字符串
+[ adasdada ]
+echo $?
+# 0
+```
+
+### 常用的判断条件
+
+1. 两个整数之间的比较
+
+   -eq 等于；-ne 不等于；-lt 小于；-le 小于等于；-gt 大于；-ge 大于等于
+
+   注：如果是字符串之间的比较，用=判断相等，用!=判断不相等
+
+2. 按照文件的权限进行判断
+
+   -r：有读的权限(read)
+
+   -w：有写的权限(write)
+
+   -x：有执行的权限(execute)
+
+3. 按照文件类型判断
+
+   -e：文件存在
+
+   -f：文件存在，并且是一个常规的文件（file）
+
+   -d：文件存在并且是一个目录（directory）
+
+> 多条件判断：(类似于三元运算符)
+>
+> ```sh
+> [ aaa ] && echo true || echo false
+> # true
+> [  ] && echo true || echo false
+> # false
+> ```
+
+
+
+## 流程控制
+
+### if判断
+
+基本语法：
+
+单分支：
+
+```sh
+if [ condition ]
+then
+	程序
+fi
+```
+
+多分支：
+
+```sh
+if [ condition ]
+then
+	程序
+elif [ condition ]
+then
+	程序
+else
+	程序
+fi
+```
+
+
+
+### for循环
+
+基本语法：
+
+```sh
+for(( 初始值;循环控制条件;变量变化 ))
+do
+	程序
+done
+```
+
+```sh
+sum=0
+for((i=0;i<=100;i++))
+do
+	sum=$[$sum+$i]
+done
+echo $sum
+```
+
+
+
+### while循环
+
+```sh
+while[ 条件 ]
+do
+  程序
+done
+```
+
+
+
+## 函数
+
+### 系统函数
+
+#### basename
+
+> 获取路径中的文件名称
+
+基本语法：
+
+`basename [string/pathname] [suffix]`
+
+basename /home/zs/readme.md
+
+输出readme.md
+
+basename /home/zs/readme.md .md
+
+输出readme
+
+
+
+### dirname
+
+> 获取文件的目录的绝对路径名称
+
+`dirname /home/zs/readme.md`
+
+输出：/home/zs
+
+
+
+### 自定义函数
+
+基本语法：([]表示可有可无)
+
+```sh
+[ function ] funname[()]
+{
+	Action;
+	[return int;]
+}
+```
+
+注意：
+
+必须在调用函数之前定义函数，Shell是逐行执行的，不像有的语言会先编译
+
+函数返回值，只能通过$?获得，可以加return指定返回值，如果不加return则返回最后一条的命令执行结果。return的返回值(0-255)
+
+```sh
+function add(){
+	s=$[$1 + $2]
+	echo $s
+}
+read -p "请输入第一个整数：" a
+read -p "请输入第二个整数：" b
+
+sum=$(add $a $b)
+echo "和："$sum
+echo "和的平方："$[$sum * $sum]
+```
+
+
+
